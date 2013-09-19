@@ -1,17 +1,28 @@
 2013-09-19 13:23
 
-git_tools - scripts for managing many repos.
+git_tools - scripts for managing many git repositories
 
-I have a folder (~/Documents/work) that contains all of the work I'm doing. This folder contains a series of subfolders, each of which is an individual git repo. I tried using submodules, but that's dumb. I need some scripts that allow me to manage a folder that's full of git repos.
+Managing many git repos that have been cloned into the same directory can be tedious. The purpose of these scripts is to eliminate the tedium by taking care of common tasks that need to be performed on all repositories. These tasks fall into three categories:
 
-Requirements
-------------
-* One command, `cloneall` should clone all of the repos contained in a specified directory. For example, I keep bare git repos in /media/DERPLETON/srv. This command should step through each repo in that directory and clone it into the directory in which the command is executed.
-* If `cloneall` is executed in a folder already containing git repos, it looks at the folder with the remotes and clones what is missing.
-* I need a command that I can execute in the parent directory that steps through all the subdirectory repos and checks if they have changes that haven't been committed.
-* That command should also tell me if those changes have been pushed to the remote.
-* The command should give me an option to make the easy pushes (fast-forward).
-* I need a command that checks the remotes of all the repos in the folder in which the command is executed to see if there are changes that need to be pulled in.
-* That command will also fetch (NOT pull) the changes from the remotes.
-* I want an option with the command to merge any changes fetched from the remotes that can be fast-forwarded.
-* This command will deal with branches elegantly.
+* Cloning many repos from a single remote folder all at once using a single command (cloneall).
+* Checking to see if any changes have been made but not committed in all the repos in a directory (statall).
+* Fetching any changes from the remotes of all the repos in a directory (fetchall).
+
+Todo
+====
+cloneall
+--------
+* Clone an arbitrary set of repos listed in a file.
+* List of repos not to clone.
+
+statall
+-------
+* Step through each subdirectory repo in a directory to see if there are changes which haven't been committed.
+* Check if those changes have been pushed to the remote.
+* Option to push non-pushed changes to remotes.
+
+fetchall
+--------
+* Step through each subdirectory repo in a directory and fetch (not pull) any changes from the remote.
+* Fetch all changes from all branches.
+* Option to automatically make all fast-forward merges.
