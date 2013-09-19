@@ -26,3 +26,7 @@ fetchall
 * Step through each subdirectory repo in a directory and fetch (not pull) any changes from the remote.
 * Fetch all changes from all branches.
 * Option to automatically make all fast-forward merges.
+
+misc
+----
+* Functionality to see if local repos are not in the remote folder. Additional functionality to create bare repos in the remote folder, remote add the remote, then push the contents of the local repo to the remote.
