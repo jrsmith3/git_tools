@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+I used the following script to convert each subdirectory of work_arl.git into its own git repo. The one exception was paper-2013.01.16_nea_collector which I did by hand using essentially the same method as below, except I skipped the part where I removed the tags. I used the procedure found at [1] and slightly modified it. I also used the solution in [2] to convert non-bare repos to bare. Note also that I first cloned work_arl from its bare git repo on the SD card, removed the remote, and tarred the result to work_arl.tar.
+
+[1] http://stackoverflow.com/questions/359424/detach-subdirectory-into-separate-git-repository
+[2] http://stackoverflow.com/questions/1784506/when-creating-a-git-repository-that-will-be-on-the-server-can-i-convert-it-to-a
+"""
+
+import os
+import subprocess
+import shutil
+
+subprocess.call(["tar","xf","work_arl.tar"])
+contents = os.listdir("work_arl")
+
+for dirname in contents:
+  if dirname[0] is not ".":
+    os.chdir("work_arl")
+
+    # Remove the tags.
+    print("=" * 50)
+    print "="*5, dirname, "="*5
+    print("removing tags")
+    git_tag = subprocess.Popen(["git","tag","-l"],stdout=subprocess.PIPE)
+    git_tag.wait()
+    xargs = subprocess.Popen(["xargs","git","tag","-d"],stdin=git_tag.stdout)
+    xargs.wait()
+
+    print("git filter-branch")
+    subprocess.call(["git","filter-branch","--tag-name-filter","cat","--prune-empty","--subdirectory-filter",dirname,"--","--all"])
+
+    print("deleting the backup reflogs")
+    subprocess.call(["git","reset","--hard"])
+    git_foreach = subprocess.Popen(["git","for-each-ref",'--format="%(refname)"',"refs/original/"], stdout=subprocess.PIPE)
+    xargs = subprocess.Popen(["xargs","-n","1","git","update-ref","-d"], stdin = git_foreach.stdout)
+    subprocess.call(["git","reflog","expire","--expire=now","--all"])
+    subprocess.call(["git","gc","--aggressive","--prune=now"])
+
+    print("Moving newly filter-branched repo to its own folder")
+    os.chdir("..")
+    shutil.move("work_arl","split_repos/"+dirname)
+    
+    print("Turning repo to bare, then removing the non-bare copy.")
+    os.chdir("split_repos")
+    subprocess.call(["git", "clone", "--bare", "-l", dirname, dirname + ".git"])
+    shutil.rmtree(dirname)
+    os.chdir("..")
+    
+    print("Un-taring the work_arl git repo again.")
+    subprocess.call(["tar","xf","work_arl.tar"])
+
