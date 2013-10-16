@@ -15,8 +15,19 @@ class main():
     """
 
     def __init__(self):
-        pass
-        
+
+        parser = argparse.ArgumentParser(description='Tools for dealing with several git repos at once.')
+
+
+    def stat_all(self, directory):
+        """
+        Stats about repos in the current directory.
+        """
+        repo_dirs = list_git_repos(directory, bare = False)
+        for repo_dir in repo_dirs:
+            repo = Gittle(repo_dir)
+            
+
 
     def clone_all(self, repos_source, repos_dest = None):
         """
@@ -29,7 +40,7 @@ class main():
         if not os.path.isdir(repos_dest):
             raise OSError(0, "Repos dest. directory not found", directory)
 
-        repos = self.list_bare_git_repos(repos_source)
+        repos = self.list_git_repos(repos_source)
         for repo in repos:
             bare_repo_name = os.path.basename(repo)
             repo_name = os.path.splitext(bare_repo_name)[0]
@@ -40,9 +51,12 @@ class main():
             Gittle.clone(repo, repo_path)
 
 
-    def list_bare_git_repos(self, directory):
+    def list_git_repos(self, directory, bare = True):
         """
-        Return list of bare git repos in specified directory
+        Return list of git repos in specified directory
+
+        :param str directory: Location in which to search for git repos
+        :param bool bare: If true, return list of repos which are bare. Otherwise, return full list of repos found in `directory`. Default = True.
         """
         # Is directory actually in the filesystem?
         if not os.path.isdir(directory):
@@ -51,16 +65,22 @@ class main():
         # Return a list of subdirectories of the directory specified in `directory`.
         subdirs = os.walk(directory).next()[1]
 
-        repos = []
+        all_repos = []
+        bare_repos = []
         for subdir in subdirs:
             try:
                 subdir_path = os.path.join(directory, subdir)
                 repo = Gittle(subdir_path)
 
+                all_repos.append(subdir_path)
                 if repo.is_bare:
-                    repos.append(subdir_path)
+                    bare_repos.append(subdir_path)
 
             except NotGitRepository:
                 pass
 
-        return repos
+        if bare:
+            return bare_repos
+        else
+            return all_repos
+
