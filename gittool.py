@@ -26,7 +26,26 @@ class main():
         repo_dirs = list_git_repos(directory, bare = False)
         for repo_dir in repo_dirs:
             repo = Gittle(repo_dir)
-            
+            print "Repo", directory
+
+            # Untracked files.
+            self.print_files("Untracked files", repo.untracked_files)
+
+            # Files changed, not yet staged for commit.
+            self.print_files("Changes not staged", repo.modified_unstaged_files)
+
+            # Files staged, not yet committed.
+            self.print_files("Changes staged for commit", repo.pending_files - repo.untracked_files)
+
+            # Local repo ahead of remote repo.
+
+    def print_files(self, group_name, paths):
+        # I copied this from https://github.com/FriendCode/gittle/blob/master/examples/status.py
+        if not paths:
+            return
+        sorted_paths = sorted(paths)
+        print("\n%s :" % group_name)
+        print('\n'.join(sorted_paths))
 
 
     def clone_all(self, repos_source, repos_dest = None):
