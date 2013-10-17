@@ -32,7 +32,10 @@ class main():
             self.print_files("Untracked files", repo.untracked_files)
 
             # Files changed, not yet staged for commit.
-            self.print_files("Changes not staged", repo.modified_unstaged_files)
+            if repo.has_commits:
+                self.print_files("Changes not staged", repo.modified_unstaged_files)
+            else:
+                print("Initial commit.")
 
             # Files staged, not yet committed.
             self.print_files("Changes staged for commit", repo.pending_files - repo.untracked_files)
