@@ -40,7 +40,21 @@ class main():
             # Files staged, not yet committed.
             self.print_files("Changes staged for commit", repo.pending_files - repo.untracked_files)
 
-            # Local repo ahead of remote repo.
+            # Local repo has no origin or origin/<BRANCH>
+            print "Current branch:", repo.active_branch
+
+            remote_origin_branch = "origin/" + repo.active_branch
+
+            if "origin" not in repo.remotes:
+                print directory, "has no remote origin."
+                return
+            elif remote_origin_branch not in repo.remote_branches:
+                print "No branch", repo.active_branch, "in remote origin."
+
+            # Local repo differs from remote repo.
+            active_sha = repo.active_sha
+            remote_origin_branch_sha = \
+                repo.remote_branches[remote_origin_branch]
 
     def print_files(self, group_name, paths):
         # I copied this from https://github.com/FriendCode/gittle/blob/master/examples/status.py
@@ -105,4 +119,3 @@ class main():
             return bare_repos
         else
             return all_repos
-
