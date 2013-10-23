@@ -32,4 +32,4 @@ misc
 * Functionality to see if local repos are not in the remote folder. Additional functionality to create bare repos in the remote folder, remote add the remote, then push the contents of the local repo to the remote.
 * Are there repos in pwd that don't have any remotes?
 * Are there repos in pwd who's active branch doesn't have a corresponding remote branch?
-* Need an easy way to set up remotes for repos that don't have one.
+* Need an easy way to set up remote origin for repos that don't have one.
