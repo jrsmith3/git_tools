@@ -119,3 +119,13 @@ class main():
             return bare_repos
         else
             return all_repos
+
+    def branch_walker_list_to_sha_list(brnch_wlkr_lst):
+        """
+        Converts the list from branch_walker to a list of shas.
+        """
+        sha_list = []
+        for item in brnch_wlkr_lst:
+            sha_list.append(item.id)
+
+        return sha_list
