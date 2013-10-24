@@ -43,18 +43,27 @@ class main():
             # Local repo has no origin or origin/<BRANCH>
             print "Current branch:", repo.active_branch
 
-            remote_origin_branch = "origin/" + repo.active_branch
+            origin_branch = "origin/" + repo.active_branch
 
             if "origin" not in repo.remotes:
                 print directory, "has no remote origin."
                 return
-            elif remote_origin_branch not in repo.remote_branches:
+            elif origin_branch not in repo.remote_branches:
                 print "No branch", repo.active_branch, "in remote origin."
 
             # Local repo differs from remote repo.
             active_sha = repo.active_sha
-            remote_origin_branch_sha = \
-                repo.remote_branches[remote_origin_branch]
+            origin_branch_sha = repo.remote_branches[origin_branch]
+
+            # List of commits of both the active branch and branch on origin.
+            active_branch_walker = repo.ref_walker(active_sha)
+            origin_branch_walker = repo.ref_walker(origin_branch_sha)
+
+            active_branch_shas = walker_to_sha(active_branch_walker)
+            origin_shas = walker_to_sha(origin_branch_walker)
+
+            reduced_active_br_shas, reduced_origin_shas = \
+                reduce_lists(active_branch_shas, origin_shas)
 
     def print_files(self, group_name, paths):
         # I copied this from https://github.com/FriendCode/gittle/blob/master/examples/status.py
@@ -120,7 +129,7 @@ class main():
         else
             return all_repos
 
-    def branch_walker_list_to_sha_list(brnch_wlkr_lst):
+    def walker_to_sha(brnch_wlkr_lst):
         """
         Converts the list from branch_walker to a list of shas.
         """
