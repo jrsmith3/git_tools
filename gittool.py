@@ -59,8 +59,8 @@ class main():
             active_branch_walker = repo.ref_walker(active_sha)
             origin_branch_walker = repo.ref_walker(origin_branch_sha)
 
-            active_branch_shas = walker_to_sha(active_branch_walker)
-            origin_shas = walker_to_sha(origin_branch_walker)
+            active_branch_shas = commits_to_shas(active_branch_walker)
+            origin_shas = commits_to_shas(origin_branch_walker)
 
             reduced_active_br_shas, reduced_origin_shas = \
                 reduce_lists(active_branch_shas, origin_shas)
@@ -129,12 +129,76 @@ class main():
         else
             return all_repos
 
-    def walker_to_sha(brnch_wlkr_lst):
+    def branch_status(self, repo):
         """
-        Converts the list from branch_walker to a list of shas.
-        """
-        sha_list = []
-        for item in brnch_wlkr_lst:
-            sha_list.append(item.id)
+        Returns a string of information about the active branch & origin.
 
-        return sha_list
+        This method returns the following information about the active branch and the remote origin:
+
+        * Name of active branch.
+        * Existance of remote origin.
+        * If the active branch is ahead/behind origin or if the two have diverged.
+
+        :param gittle.Gittle repo: Git repository object.
+        """
+        active_branch_msg = "On branch: %s\n" % repo.active_branch
+
+    def get_origin_branch_name(self, repo):
+        """
+        Returns string 'origin/<active branch name>'
+        """
+        return "origin/%s" % repo.active_branch
+
+
+    def origin_message(self, repo):
+        """
+        Returns a string regarding the existance of the remote origin.
+
+        :param gittle.Gittle repo: Git repository object.
+        """
+        origin_branch_name = self.get_origin_branch_name(repo)
+
+        if origin_branch_name in repo.remote_branches:
+            origin_branch_msg = ""
+        else:
+            origin_branch_msg = "No %s\n" % origin_branch_name
+
+        return origin_branch_msg
+
+    def get_branch_commits_as_shas(self, repo, origin = False):
+        """
+        Return commit history of branch as a list of sha strings.
+
+        :param gittle.Gittle repo: Git repository object.
+        :param bool origin: True returns branch of origin. False returns local branch. Default = False.
+        """
+        if origin:
+            branch_name = self.get_origin_branch_name(repo)
+            branch_sha = repo.remote_branches[origin_branch_name]
+        else:
+            branch_sha = repo.branches[repo.active_branch]
+
+        branch_commits = repo.ref_walker(branch_sha)
+        branch_shas = self.commits_to_shas(branch_commits)
+
+        return branch_shas
+
+    def commits_to_shas(self, commits):
+        """
+        Converts the list from branch_walker to a list of sha id strings.
+        """
+        shas = []
+        for commit in commits:
+            shas.append(commit.id)
+
+        return shas
+
+    def active_branch_relative_to_origin_message(self, repo):
+        """
+        Returns a string describing relation between branch and origin.
+
+        :param gittle.Gittle repo: Git repository object.
+        """
+        origin_branch_shas = self.get_branch_commits_as_shas(repo, True)
+        active_branch_shas = self.get_branch_commits_as_shas(repo)
+
