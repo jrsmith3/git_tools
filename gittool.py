@@ -70,7 +70,7 @@ def list_git_repos(directory, bare = True):
 
     if bare:
         return bare_repos
-    else
+    else:
         return all_repos
 
 def branch_status(repo):
@@ -117,13 +117,13 @@ def get_branch_commits_as_shas(repo, origin = False):
     :param bool origin: True returns branch of origin. False returns local branch. Default = False.
     """
     if origin:
-        branch_name = self.get_origin_branch_name(repo)
-        branch_sha = repo.remote_branches[origin_branch_name]
+        branch_name = get_origin_branch_name(repo)
+        branch_sha = repo.remote_branches[branch_name]
     else:
         branch_sha = repo.branches[repo.active_branch]
 
     branch_commits = repo.ref_walker(branch_sha)
-    branch_shas = self.commits_to_shas(branch_commits)
+    branch_shas = commits_to_shas(branch_commits)
 
     return branch_shas
 
@@ -137,14 +137,38 @@ def commits_to_shas(commits):
 
     return shas
 
+def truncate_shas_lists(active_branch_shas, origin_branch_shas):
+    """
+    Return lists with common end sequence removed.
+
+    :param list active_branch_shas: List of sha id strings for the commits of the active branch.
+    :param list origin_branch_shas: List of sha id strings for the commits of the branch on origin corresponding to the active branch.
+    """
+    # The logic here is to reverse both lists, then zip iterate over the pair, popping off identical items. At the end, reverse the resulting two lists and return them.
+    active_branch_shas.reverse()
+    origin_branch_shas.reverse()
+
+    # This algorithm could probably be more elegant.
+    for active_sha, origin_sha in zip(active_branch_shas, origin_branch_shas):
+        if active_sha == origin_sha:
+            active_branch_shas.pop(0)
+            origin_branch_shas.pop(0)
+
+    # Flip the lists back around.
+    active_branch_shas.reverse()
+    origin_branch_shas.reverse()
+
+    return active_branch_shas, origin_branch_shas
+
+
 def active_branch_relative_to_origin_message(repo):
     """
-    Returns a string describing relation between branch and origin.
+    Returns string describing relation between branch and origin.
 
     :param gittle.Gittle repo: Git repository object.
     """
-    origin_branch_shas = self.get_branch_commits_as_shas(repo, True)
-    active_branch_shas = self.get_branch_commits_as_shas(repo)
+    active_branch_shas = get_branch_commits_as_shas(repo)
+    origin_branch_shas = get_branch_commits_as_shas(repo, True)
 
 
 
