@@ -6,6 +6,7 @@ gittool - Deal with many git repos at once
 import os
 import logging
 import argparse
+import copy
 from gittle import Gittle
 from dulwich.errors import NotGitRepository
 
@@ -145,20 +146,23 @@ def truncate_shas_lists(active_branch_shas, origin_branch_shas):
     :param list origin_branch_shas: List of sha id strings for the commits of the branch on origin corresponding to the active branch.
     """
     # The logic here is to reverse both lists, then zip iterate over the pair, popping off identical items. At the end, reverse the resulting two lists and return them.
-    active_branch_shas.reverse()
-    origin_branch_shas.reverse()
+    active_shas = copy.copy(active_branch_shas)
+    origin_shas = copy.copy(origin_branch_shas)
+
+    active_shas.reverse()
+    origin_shas.reverse()
 
     # This algorithm could probably be more elegant.
-    for active_sha, origin_sha in zip(active_branch_shas, origin_branch_shas):
+    for active_sha, origin_sha in zip(active_shas, origin_shas):
         if active_sha == origin_sha:
-            active_branch_shas.pop(0)
-            origin_branch_shas.pop(0)
+            active_shas.pop(0)
+            origin_shas.pop(0)
 
     # Flip the lists back around.
-    active_branch_shas.reverse()
-    origin_branch_shas.reverse()
+    active_shas.reverse()
+    origin_shas.reverse()
 
-    return active_branch_shas, origin_branch_shas
+    return active_shas, origin_shas
 
 
 def active_branch_relative_to_origin_message(repo):
@@ -169,6 +173,8 @@ def active_branch_relative_to_origin_message(repo):
     """
     active_branch_shas = get_branch_commits_as_shas(repo)
     origin_branch_shas = get_branch_commits_as_shas(repo, True)
+
+
 
 
 
