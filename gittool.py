@@ -174,9 +174,23 @@ def active_branch_relative_to_origin_message(repo):
     active_branch_shas = get_branch_commits_as_shas(repo)
     origin_branch_shas = get_branch_commits_as_shas(repo, True)
 
+    truncd_active_shas, truncd_origin_shas = \
+        truncate_shas_lists(active_branch_shas, origin_branch_shas)
 
+    if len(truncd_active_shas + truncd_origin_shas) == 0:
+        message = ""
+    elif len(truncd_active_shas) == 0:
+        message = "Active branch behind origin by %s commits"
+        message = message % str(len(truncd_origin_shas))
+    elif len(truncd_origin_shas) == 0:
+        message = "Active branch ahead of origin by %s commits"
+        message = message % str(len(truncd_active_shas))
+    else:
+        message = "Active branch and origin have diverged.\nEach has %s and %s different commits, respectively."
+        message = message % \
+            (str(len(truncd_active_shas)), str(len(truncd_origin_shas)))
 
-
+    return message
 
 class main():
     """
