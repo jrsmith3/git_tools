@@ -46,7 +46,7 @@ def list_git_repos(directory, bare = True):
     Return list of git repos in specified directory
 
     :param str directory: Location in which to search for git repos
-    :param bool bare: If true, return list of repos which are bare. Otherwise, return full list of repos found in `directory`. Default = True.
+    :param bool bare: If True, return list of repos which are bare. Otherwise, return full list of repos found in `directory`. Default = True.
     """
     # Is directory actually in the filesystem?
     if not os.path.isdir(directory):
