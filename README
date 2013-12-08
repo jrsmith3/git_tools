@@ -2,34 +2,4 @@
 
 git_tools - tools for managing many git repositories
 
-Managing many git repos that have been cloned into the same directory can be tedious. The purpose of these scripts is to eliminate the tedium by taking care of common tasks that need to be performed on all repositories. These tasks fall into three categories:
-
-* Cloning many repos from a single remote folder all at once using a single command (cloneall).
-* Checking to see if any changes have been made but not committed in all the repos in a directory (statall).
-* Fetching any changes from the remotes of all the repos in a directory (fetchall).
-
-Todo
-====
-cloneall
---------
-* Clone an arbitrary set of repos listed in a file.
-* List of repos not to clone.
-
-statall
--------
-* Step through each subdirectory repo in a directory to see if there are changes which haven't been committed.
-* Check if those changes have been pushed to the remote.
-* Option to push non-pushed changes to remotes.
-
-fetchall
---------
-* Step through each subdirectory repo in a directory and fetch (not pull) any changes from the remote.
-* Fetch all changes from all branches.
-* Option to automatically make all fast-forward merges.
-
-misc
-----
-* Functionality to see if local repos are not in the remote folder. Additional functionality to create bare repos in the remote folder, remote add the remote, then push the contents of the local repo to the remote.
-* Are there repos in pwd that don't have any remotes?
-* Are there repos in pwd who's active branch doesn't have a corresponding remote branch?
-* Need an easy way to set up remote origin for repos that don't have one.
+Managing many git repos that have been cloned into the same directory can be tedious. The purpose of these scripts is to eliminate the tedium by taking care of common tasks that need to be performed on all repositories.
