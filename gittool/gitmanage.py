@@ -9,36 +9,23 @@ import git
 def remove_remotes(repo):
     """
     Removes all remotes from git repo, `repo`.
+
+    :param repo git.repo.base.Repo: Repository whos remotes are to be removed.
     """
     for remote in repo.remotes:
         repo.delete_remote(remote)
 
-def make_src_path(src):
+def make_full_path(pth):
     """
-    Converts `src` to absolute (if necessary) and returns it. 
+    Return a full path from a full or relative path.
+
+    :param pth str: Partial or full path.
     """
-    if os.path.isabs(src):
-        path = src
+    if os.path.isabs(pth):
+        path = pth
     else:
         pwd = os.getcwd()
-        path = os.path.join(pwd, src)
-
-    return path
-
-def make_dst_path(dst):
-    """
-    Create the destination path and return it.
-    """
-    if dst is None:
-        head, src = os.path.split(self.src)
-        src += "-split"
-        path = os.path.join(head, src)
-    else:
-        if os.path.isabs(dst):
-            path = dst
-        else:
-            pwd = os.getcwd()
-            path = os.path.join(pwd, dst)
+        path = os.path.join(pwd, pth)
 
     return path
 
@@ -47,6 +34,8 @@ def subdir_repo_list(repo):
     Return list of subdirs from `src` which will turn into repos.
 
     Note that this method is a little more sophisticated than just `os.listdir`. It will return only subdirectories of `src`, and only those which are not in `.gitignore` or the `.git` directory.
+
+    :param repo git.repo.base.Repo: Repository used to make list of immediate subdirs to generate new git repos.
     """
     dir_items = os.listdir(repo.working_dir)
     ignoreds = self.ignored_list(self.repo)
@@ -118,8 +107,14 @@ class main():
         args = parser.parse_args()
 
         if args.split:
-            self.src = self.make_src_path(args.split)
-            self.dst = self.make_dst_path(args.dst)
+            self.src = self.make_full_path(args.split)
+
+            if self.dst is None:
+                head, pth = os.path.split(self.src)
+                pth += "-split"
+                path = os.path.join(head, pth)
+            else:
+                self.dst = self.make_full_path(args.dst)
 
             # If the source directory doesn't even exist, no sense in continuing.
             if not os.path.isdir(self.src):
@@ -127,7 +122,7 @@ class main():
 
             self.repo = git.Repo(self.src)
 
-            subdirs = self.subdir_repo_list(self.repo)
+            subdirs = subdir_repo_list(self.repo)
 
 
 
