@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = false
+[remote "origin"]
+	url = /Users/jrsmith3/Documents/work_arl/git_tools/test/bare_repos/2_bare/
