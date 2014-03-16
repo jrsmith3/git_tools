@@ -4,6 +4,7 @@ Herein I generate control git repos to perform tests. I want to do this programa
 """
 
 import git
+import tarfile
 
 def generate_repo_with_three_remotes():
     """
@@ -20,8 +21,7 @@ def generate_repo_with_three_remotes():
     repo = git.Repo.init(repo_dirname)
 
     # Add remotes
-    for name, url in remotes.keys():
+    for name, url in remotes.iteritems():
         repo.create_remote(name, url)
 
     # Archive repo.
-    repo.archive(open(repo_tarfilename, "w"))
