@@ -15,7 +15,7 @@ def generate_repo_with_three_remotes():
                "notaurl": "git@notaurl.com:username/three_remotes.git",}
 
     repo_dirname = "three_remotes"
-    repo_tarfilename = repo_dirname + ".tar"
+    repo_targzfilename = repo_dirname + ".tar.gz"
 
     # Initialize repo
     repo = git.Repo.init(repo_dirname)
@@ -25,3 +25,5 @@ def generate_repo_with_three_remotes():
         repo.create_remote(name, url)
 
     # Archive repo.
+    with tarfile.open(repo_targzfilename, "w:gz") as tar:
+        tar.add(repo_dirname)
