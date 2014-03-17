@@ -6,6 +6,7 @@ Herein I generate control git repos to perform tests. I want to do this programa
 import git
 import tarfile
 import os
+import shutil
 
 def generate_repo_with_three_remotes():
     """
@@ -18,16 +19,19 @@ def generate_repo_with_three_remotes():
     repo_dirname = "three_remotes"
     repo_targzfilename = repo_dirname + ".tar.gz"
 
-    # Initialize repo
+    # Initialize repo.
     repo = git.Repo.init(repo_dirname)
 
-    # Add remotes
+    # Add remotes.
     for name, url in remotes.iteritems():
         repo.create_remote(name, url)
 
     # Archive repo.
     with tarfile.open(repo_targzfilename, "w:gz") as tar:
         tar.add(repo_dirname)
+
+    # Delete repo directory.
+    shutil.rmtree(repo_dirname)
 
 def generate_1_ignore_2_dirs_1_uncommit():
     """
@@ -78,3 +82,6 @@ def generate_1_ignore_2_dirs_1_uncommit():
     # Archive repo.
     with tarfile.open(repo_targzfilename, "w:gz") as tar:
         tar.add(repo_dirname)
+
+    # Delete repo directory.
+    shutil.rmtree(repo_dirname)
