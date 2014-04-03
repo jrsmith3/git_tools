@@ -18,6 +18,28 @@ import os
 import shutil
 
 
+class GeneratorBase():
+    """
+    Base class for generating standard git repositories for testing.
+
+    Subclasses of this class will be used to generate standard git repos for testing. 
+    """
+    def __init__():
+        pass
+
+    def get_name():
+        """
+        Returns string with the name of the method this class tests.
+        """
+        return self.__class__.__name__
+
+    def repo_exists():
+        """
+        Return bool if a directory of the same name as the repo exists.
+        """
+        pass
+
+
 def generate_remove_remotes():
     """
     Generates a git repo with three remotes.
