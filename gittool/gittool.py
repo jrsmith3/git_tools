@@ -38,6 +38,27 @@ def branchable_subdirs(repo):
     return dirnames
 
 
+def empty_subdirs(repo):
+    """
+    List of top-level subdirectories which contain no files at any nesting level.
+    """
+    dirnames = list_tl_subdirs(repo)
+    dirnames.remove(".git")
+
+    empty_paths = []
+
+    for path, dirs, files in os.walk(repo.wd):
+        if ".git" in dirs:
+            dirs.remove(".git")
+        if ".DS_Store" in files:
+            files.remove(".DS_Store")
+        combo_list = dirs + files
+        if not combo_list:
+            empty_paths.append(path)
+
+    return empty_paths
+
+
 def branches_from_subdirs(repo):
     """
     `git subtree split` each subdirectory into its own branch.
