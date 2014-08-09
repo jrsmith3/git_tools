@@ -114,3 +114,15 @@ class MethodsFunctionality(unittest.TestCase):
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
 
         self.assertEqual(os.path.getsize(dummy_fqpn), 0)
+
+    def test_dict_to_fs_nonempty_file(self):
+        """
+        A nonempty string should generate a nonempty file.
+        """
+        dummy_filename = "dummy.txt"
+        fs_dict = {dummy_filename: "Hello world.\n"}
+        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+
+        dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
+
+        self.assertTrue(os.path.getsize(dummy_fqpn) > 0)
