@@ -9,14 +9,12 @@ import argparse
 import git
 
 
-def list_tl_subdirs(repo):
+def list_tl_subdirs(src_fqpn):
     """
     List of top-level subdirectories in a repository.
 
-    :param git.repo repo: `GitPython` `Repo` object.
+    :param str src_fqpn: Fully qualified path name to source directory.
     """
-    src_fqpn = repo.wd
-
     dirnames = [f for f in os.listdir(src_fqpn) if os.path.isdir(os.path.join(src_fqpn,f))]
 
     return dirnames
