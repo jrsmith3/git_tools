@@ -91,9 +91,26 @@ class MethodsFunctionality(unittest.TestCase):
 
         self.assertEqual(os.listdir(self.scratch_dir), fs_dict.keys())
 
-
     def test_dict_to_fs_isfile(self):
         """
         dict_to_fs should be able to create a file.
         """
-        pass
+        dummy_filename = "dummy.txt"
+        fs_dict = {dummy_filename: ""}
+        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+
+        dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
+
+        self.assertTrue(os.path.isfile(dummy_fqpn))
+
+    def test_dict_to_fs_empty_file(self):
+        """
+        An empty string should generate an empty file.
+        """
+        dummy_filename = "dummy.txt"
+        fs_dict = {dummy_filename: ""}
+        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+
+        dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
+
+        self.assertEqual(os.path.getsize(dummy_fqpn), 0)
