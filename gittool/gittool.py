@@ -8,20 +8,35 @@ import logging
 import argparse
 import git
 
-def branchable_subdirs(repo):
+
+def list_tl_subdirs(repo):
     """
-    List subdir names of repo which can be branches.
+    List of top-level subdirectories in a repository.
+
+    :param git.repo repo: `GitPython` `Repo` object.
     """
     src_fqpn = repo.wd
 
     dirnames = [f for f in os.listdir(src_fqpn) if os.path.isdir(os.path.join(src_fqpn,f))]
 
+    return dirnames
+
+
+def branchable_subdirs(repo):
+    """
+    List subdir names of repo which can be branches.
+    """
+    dirnames = list_tl_subdirs(repo)
+
     # I know I need to throw out the `.git` from that list.
     dirnames.remove(".git")
+
+    # I need to throw out directories no files at any nesting level. In other words, a directory can have an arbitrary number of nested directories, but no files.
 
     # I also know that there's a possibility the repo has subdirectories that can't be split using `git subtree split`. For example these dirs may be in .gitignore (there are other cases).
 
     return dirnames
+
 
 def branches_from_subdirs(repo):
     """
