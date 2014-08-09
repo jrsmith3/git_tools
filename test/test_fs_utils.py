@@ -2,7 +2,7 @@
 import os
 import shutil
 import unittest
-import gittool
+from gittool import fs_utils
 
 test_dir_root = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,7 +30,7 @@ class MethodsInput(unittest.TestCase):
         """
         First argument to dict_to_fs must be a dictionary.
         """
-        self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, "not a dict", test_dir_root)
+        self.assertRaises(TypeError, fs_utils.dict_to_fs, "not a dict", test_dir_root)
 
     def test_dict_to_fs_fs_dict_values_non_dict_string(self):
         """
@@ -38,13 +38,13 @@ class MethodsInput(unittest.TestCase):
         """
         bad_input = {"neither_string_nor_dict": 42.}
 
-        self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, bad_input, test_dir_root)
+        self.assertRaises(TypeError, fs_utils.dict_to_fs, bad_input, test_dir_root)
 
     def test_dict_to_fs_fqpn_root_non_str(self):
         """
         Second argument to dict_to_fs must be a string.
         """
-        self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, self.good_input_dict, 42.)
+        self.assertRaises(TypeError, fs_utils.dict_to_fs, self.good_input_dict, 42.)
 
     def test_dict_to_fs_fqpn_root_nonexistant_path(self):
         """
@@ -53,13 +53,13 @@ class MethodsInput(unittest.TestCase):
         nonexistant_subdir = "does_not_exist"
         bad_fqpn_root = os.path.join(test_dir_root, nonexistant_subdir)
 
-        self.assertRaises(OSError, gittool.fs_utils.dict_to_fs, self.good_input_dict, bad_fqpn_root)
+        self.assertRaises(OSError, fs_utils.dict_to_fs, self.good_input_dict, bad_fqpn_root)
 
     def test_dict_to_fs_fqpn_root_non_directory_path(self):
         """
         Second arg to dict_to_fs must correspond to a dir, not a file.
         """
-        self.assertRaises(OSError, gittool.fs_utils.dict_to_fs, self.good_input_dict, self.path_to_dummy_file)
+        self.assertRaises(OSError, fs_utils.dict_to_fs, self.good_input_dict, self.path_to_dummy_file)
 
 
 class MethodsFunctionality(unittest.TestCase):
@@ -85,7 +85,7 @@ class MethodsFunctionality(unittest.TestCase):
         dict_to_fs should be able to create a file with a specified filename.
         """
         fs_dict = {"dummy.txt": ""}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         scratch_names = os.listdir(self.scratch_dir)
 
@@ -97,7 +97,7 @@ class MethodsFunctionality(unittest.TestCase):
         """
         dummy_filename = "dummy.txt"
         fs_dict = {dummy_filename: ""}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
 
@@ -109,7 +109,7 @@ class MethodsFunctionality(unittest.TestCase):
         """
         dummy_filename = "dummy.txt"
         fs_dict = {dummy_filename: ""}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
 
@@ -121,7 +121,7 @@ class MethodsFunctionality(unittest.TestCase):
         """
         dummy_filename = "dummy.txt"
         fs_dict = {dummy_filename: "Hello world.\n"}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
 
@@ -133,7 +133,7 @@ class MethodsFunctionality(unittest.TestCase):
         """
         dummy_dirname = "dummy"
         fs_dict = {dummy_dirname: {}}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_dirname)
 
@@ -145,7 +145,7 @@ class MethodsFunctionality(unittest.TestCase):
         """
         dummy_dirname = "dummy"
         fs_dict = {dummy_dirname: {}}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_dirname)
 
@@ -159,7 +159,7 @@ class MethodsFunctionality(unittest.TestCase):
         """
         dummy_dirname = "dummy"
         fs_dict = {dummy_dirname: {"test_file.txt":""}}
-        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+        fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
 
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_dirname)
 
