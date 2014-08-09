@@ -15,6 +15,9 @@ def dict_to_fs(fs_dict, fqpn_root):
     :param dict fs_dict: Specially formatted dict representing a directory tree structure.
     :param str fqpn_root: Fully qualified path name in which to create the directory tree.
     """
+    if type(fs_dict) is not dict:
+        raise TypeError("fs_dict must be a dictionary.")
+
     for key, val in fs_dict.items():
         fq_path_name = os.path.join(fqpn_root, key)
 
