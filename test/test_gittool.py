@@ -50,4 +50,5 @@ class MethodsReturnValues(unittest.TestCase):
         """
         list_tl_subdirs should return a list with all subdirs.
         """
-        pass
+        subdir_list = os.listdir(self.scratch_dir)
+        self.assertEqual(subdir_list.sort(), self.fs_dict.keys().sort())
