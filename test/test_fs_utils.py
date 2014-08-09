@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import shutil
 import unittest
 import gittool
 
@@ -65,4 +66,34 @@ class MethodsFunctionality(unittest.TestCase):
     """
     Tests proper functionality of the methods.
     """
-    pass
+    scratch_dir = os.path.join(test_dir_root, "scratch")
+
+    def setUp(self):
+        """
+        Creates a scratch directory for the tests.
+        """
+        os.mkdir(self.scratch_dir)
+
+    def tearDown(self):
+        """
+        Removes the scratch dir (and its contents).
+        """
+        shutil.rmtree(self.scratch_dir)
+
+    def test_dict_to_fs_filename(self):
+        """
+        dict_to_fs should be able to create a file with a specified filename.
+        """
+        fs_dict = {"dummy.txt": ""}
+        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+
+        scratch_names = os.listdir(self.scratch_dir)
+
+        self.assertEqual(os.listdir(self.scratch_dir), fs_dict.keys())
+
+
+    def test_dict_to_fs_isfile(self):
+        """
+        dict_to_fs should be able to create a file.
+        """
+        pass
