@@ -138,3 +138,17 @@ class MethodsFunctionality(unittest.TestCase):
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_dirname)
 
         self.assertTrue(os.path.isdir(dummy_fqpn))
+
+    def test_dict_to_fs_dir_isempty(self):
+        """
+        dict_to_fs should be able to create an empty directory.
+        """
+        dummy_dirname = "dummy"
+        fs_dict = {dummy_dirname: {}}
+        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+
+        dummy_fqpn = os.path.join(self.scratch_dir, dummy_dirname)
+
+        should_be_empty_list = os.listdir(os.path.join(self.scratch_dir, dummy_dirname))
+
+        self.assertEqual(should_be_empty_list, [])
