@@ -3,6 +3,7 @@ import os
 import unittest
 import gittool
 
+# Variable containing the fully qualified path name of the directory containing these tests.
 test_dir_root = os.path.dirname(os.path.realpath(__file__))
 
 class MethodsReturnType(unittest.TestCase):
