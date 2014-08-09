@@ -22,3 +22,14 @@ def branchable_subdirs(repo):
     # I also know that there's a possibility the repo has subdirectories that can't be split using `git subtree split`. For example these dirs may be in .gitignore (there are other cases).
 
     return dirnames
+
+def branches_from_subdirs(repo):
+    """
+    `git subtree split` each subdirectory into its own branch.
+    """
+    dirnames = branchable_subdirs(repo)
+
+    for dirname in dirnames:
+        # the command I need to execute is
+        # `git subtree split -P subdir -b subdir`
+        repo.git.subtree("split", P = dirname, b = dirname)
