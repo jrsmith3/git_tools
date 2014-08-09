@@ -6,6 +6,7 @@ import gittool
 # Variable containing the fully qualified path name of the directory containing these tests.
 test_dir_root = os.path.dirname(os.path.realpath(__file__))
 
+
 class MethodsReturnType(unittest.TestCase):
     """
     Tests output types of the methods.
@@ -27,4 +28,20 @@ class MethodsReturnValues(unittest.TestCase):
     """
     Tests output values of the methods where applicable.
     """
-    pass
+    def setUp(self):
+        """
+        Creates nested directory structure for the tests in this class.
+        """
+        pass
+
+    def tearDown(self):
+        """
+        Cleans up nested directory structure for the tests in this class.
+        """
+        pass
+
+    def test_list_tl_subdirs(self):
+        """
+        list_tl_subdirs should return a list.
+        """
+        pass
