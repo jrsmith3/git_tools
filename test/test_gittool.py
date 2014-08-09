@@ -15,6 +15,12 @@ class MethodsReturnType(unittest.TestCase):
         """
         self.assertIsInstance(gittool.list_tl_subdirs(test_dir_root), list)
 
+    def test_list_empty_subdirs(self):
+        """
+        list_empty_subdirs should return a list.
+        """
+        self.assertIsInstance(gittool.list_empty_subdirs(test_dir_root), list)
+
 
 class MethodsReturnValues(unittest.TestCase):
     """
