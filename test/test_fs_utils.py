@@ -9,6 +9,24 @@ class MethodsInput(unittest.TestCase):
     """
     Tests behavior of methods which take input arguments.
     """
+    good_input_dict = {"dir1": {}}
+    path_to_dummy_file = os.path.join(test_dir_root, "dummy.txt")
+
+    def setUp(self):
+        """
+        Creates a dummy file in the `test_dir_root`.
+        """
+        with open(self.path_to_dummy_file, "w"):
+            pass
+
+    def tearDown(self):
+        """
+        Removes dummy file in the `test_dir_root`.
+        """
+        os.remove(self.path_to_dummy_file)
+
+
+
     def test_dict_to_fs_fs_dict_non_dict(self):
         """
         First argument to dict_to_fs must be a dictionary.
@@ -27,9 +45,22 @@ class MethodsInput(unittest.TestCase):
         """
         Second argument to dict_to_fs must be a string.
         """
-        good_input = {"dir1": {}}
+        self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, self.good_input_dict, 42.)
 
-        self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, good_input, 42.)
+    def test_dict_to_fs_fqpn_root_nonexistant_path(self):
+        """
+        Second arg to dict_to_fs must correspond to exitant path.
+        """
+        nonexistant_subdir = "does_not_exist"
+        bad_fqpn_root = os.path.join(test_dir_root, nonexistant_subdir)
+
+        self.assertRaises(OSError, gittool.fs_utils.dict_to_fs, self.good_input_dict, bad_fqpn_root)
+
+    def test_dict_to_fs_fqpn_root_non_directory_path(self):
+        """
+        Second arg to dict_to_fs must correspond to a dir, not a file.
+        """
+        self.assertRaises(OSError, gittool.fs_utils.dict_to_fs, self.good_input_dict, self.path_to_dummy_file)
 
 
 
