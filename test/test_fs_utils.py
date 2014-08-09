@@ -89,7 +89,7 @@ class MethodsFunctionality(unittest.TestCase):
 
         scratch_names = os.listdir(self.scratch_dir)
 
-        self.assertEqual(os.listdir(self.scratch_dir), fs_dict.keys())
+        self.assertEqual(scratch_names, fs_dict.keys())
 
     def test_dict_to_fs_isfile(self):
         """
