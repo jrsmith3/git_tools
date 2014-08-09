@@ -15,3 +15,9 @@ class MethodsReturnType(unittest.TestCase):
         """
         self.assertIsInstance(gittool.list_tl_subdirs(test_dir_root), list)
 
+
+class MethodsReturnValues(unittest.TestCase):
+    """
+    Tests output values of the methods where applicable.
+    """
+    pass
