@@ -25,8 +25,6 @@ class MethodsInput(unittest.TestCase):
         """
         os.remove(self.path_to_dummy_file)
 
-
-
     def test_dict_to_fs_fs_dict_non_dict(self):
         """
         First argument to dict_to_fs must be a dictionary.
@@ -61,7 +59,6 @@ class MethodsInput(unittest.TestCase):
         Second arg to dict_to_fs must correspond to a dir, not a file.
         """
         self.assertRaises(OSError, gittool.fs_utils.dict_to_fs, self.good_input_dict, self.path_to_dummy_file)
-
 
 
 class MethodsFunctionality(unittest.TestCase):
