@@ -20,16 +20,20 @@ def list_tl_subdirs(src_fqpn):
     return dirnames
 
 
-def empty_subdirs(repo):
+def list_empty_subdirs(src_fqpn):
     """
     List of top-level subdirectories which contain no files at any nesting level.
     """
-    dirnames = list_tl_subdirs(repo)
-    dirnames.remove(".git")
+    dirnames = list_tl_subdirs(src_fqpn)
+
+    try:
+        dirnames.remove(".git")
+    except:
+        pass
 
     empty_paths = []
 
-    for path, dirs, files in os.walk(repo.wd):
+    for path, dirs, files in os.walk(src_fqpn):
         if ".git" in dirs:
             dirs.remove(".git")
         if ".DS_Store" in files:
