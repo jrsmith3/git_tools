@@ -23,7 +23,14 @@ class MethodsInput(unittest.TestCase):
 
         self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, bad_input, test_dir_root)
 
-    
+    def test_dict_to_fs_fqpn_root_non_str(self):
+        """
+        Second argument to dict_to_fs must be a string.
+        """
+        good_input = {"dir1": {}}
+
+        self.assertRaises(TypeError, gittool.fs_utils.dict_to_fs, good_input, 42.)
+
 
 
 class MethodsFunctionality(unittest.TestCase):
