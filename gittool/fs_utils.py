@@ -8,22 +8,24 @@ def dict_to_fs(fs_dict, fqpn_root):
     Formatting rules for `fs_dict` are as follows:
 
     * Keys give the file/directory name.
-    * `None` values indicate the key maps to an empty directory.
     * `str` values indicate the key maps to a file which contains the contents of the string.
     * `dict` values indicate the key maps to a directory which contains the contents of the dictionary as given by these rules.
+    * A value which is an empty dict will create an empty directory.
 
     :param dict fs_dict: Specially formatted dict representing a directory tree structure.
     :param str fqpn_root: Fully qualified path name in which to create the directory tree.
     """
     for key, val in fs_dict.items():
-        if val is None:
+        if type(val) is dict:
+            # Create a subdirectory at this point, call `dict_to_fs`.
             pass
         elif type(val) is str:
-            pass
-        elif type(val) is dict:
+            # Create a file at this point with the contents in `val`.
             pass
         else:
-            raise TypeError("Values must be None, str, or dict.")
+            msg = "Values must be str or dict. Key `%s` is %s"
+            subs = (key, type(val))
+            raise TypeError(msg % subs)
 
 
 def fs_to_dict(fqpn_root):
