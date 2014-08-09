@@ -126,3 +126,15 @@ class MethodsFunctionality(unittest.TestCase):
         dummy_fqpn = os.path.join(self.scratch_dir, dummy_filename)
 
         self.assertTrue(os.path.getsize(dummy_fqpn) > 0)
+
+    def test_dict_to_fs_isdir(self):
+        """
+        dict_to_fs should be able to create a directory.
+        """
+        dummy_dirname = "dummy"
+        fs_dict = {dummy_dirname: {}}
+        gittool.fs_utils.dict_to_fs(fs_dict, self.scratch_dir)
+
+        dummy_fqpn = os.path.join(self.scratch_dir, dummy_dirname)
+
+        self.assertTrue(os.path.isdir(dummy_fqpn))
