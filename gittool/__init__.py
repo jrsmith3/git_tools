@@ -8,3 +8,4 @@ Base Library (:mod:`gittool`)
 """
 
 from gittool import *
+import fs_utils
