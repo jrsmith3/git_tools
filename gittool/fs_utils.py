@@ -18,6 +18,9 @@ def dict_to_fs(fs_dict, fqpn_root):
     if type(fs_dict) is not dict:
         raise TypeError("fs_dict must be a dictionary.")
 
+    if type(fqpn_root) is not str:
+        raise TypeError("fqpn_root must be a string.")
+
     for key, val in fs_dict.items():
         fq_path_name = os.path.join(fqpn_root, key)
 
