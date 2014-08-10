@@ -42,7 +42,7 @@ def branchable_subdirs(repo):
     """
     List subdir names of repo which can be branches.
     """
-    dirnames = list_tl_subdirs(repo)
+    dirnames = list_tl_subdirs(repo.wd)
 
     # I know I need to throw out the `.git` from that list.
     dirnames.remove(".git")
@@ -53,6 +53,11 @@ def branchable_subdirs(repo):
 
     return dirnames
 
+def dir_to_branch(dirname):
+    """
+    Replaces spaces with underscore.
+    """
+    return dirname.replace(" ", "_")
 
 def branches_from_subdirs(repo):
     """
@@ -63,4 +68,5 @@ def branches_from_subdirs(repo):
     for dirname in dirnames:
         # the command I need to execute is
         # `git subtree split -P subdir -b subdir`
-        repo.git.subtree("split", P = dirname, b = dirname)
+        branch_name = dir_to_branch(dirname)
+        repo.git.subtree("split", P = dirname, b = branch_name)
