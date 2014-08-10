@@ -50,16 +50,14 @@ class MethodsInput(unittest.TestCase):
         """
         self.assertRaises(TypeError, fs_utils.dict_to_fs, self.good_input_dict, 42.)
 
-    def test_dict_to_fs_fqpn_root_unicode(self):
+    def test_dict_to_fs_fqpn_root_string(self):
         """
-        Second argument to dict_to_fs can also be unicode.
+        Second argument to dict_to_fs can be str.
         """
-        # unicode_fqpn_root = "asdf"
-        # try:
-        #     fs_utils.dict_to_fs(self.good_input_dict, unicode_fqpn_root)
-        # except:
-        #     self.fail("An exception was raised, so this method can't handle unicode.")
-        pass
+        try:
+            fs_utils.dict_to_fs(self.good_input_dict, str(self.scratch_dir))
+        except:
+            self.fail("An exception was raised, so this method can't handle strings.")
 
     def test_dict_to_fs_fqpn_root_nonexistant_path(self):
         """
