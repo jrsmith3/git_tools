@@ -59,6 +59,15 @@ class MethodsInput(unittest.TestCase):
         except:
             self.fail("An exception was raised, so this method can't handle strings.")
 
+    def test_dict_to_fs_fqpn_root_unicode(self):
+        """
+        Second argument to dict_to_fs can be unicode.
+        """
+        try:
+            fs_utils.dict_to_fs(self.good_input_dict, unicode(self.scratch_dir))
+        except:
+            self.fail("An exception was raised, so this method can't handle unicode.")
+
     def test_dict_to_fs_fqpn_root_nonexistant_path(self):
         """
         Second arg to dict_to_fs must correspond to exitant path.

@@ -18,11 +18,11 @@ def dict_to_fs(fs_dict, fqpn_root):
     if type(fs_dict) is not dict:
         raise TypeError("fs_dict must be a dictionary.")
 
-    if type(fqpn_root) is not str:
-        raise TypeError("fqpn_root must be a string.")
-
     for key, val in fs_dict.items():
-        fq_path_name = os.path.join(fqpn_root, key)
+        try:
+            fq_path_name = os.path.join(fqpn_root, key)
+        except:
+            raise TypeError("fqpn_root must be a string.")
 
         if type(val) is dict:
             # Create a subdirectory at this point, call `dict_to_fs`.
