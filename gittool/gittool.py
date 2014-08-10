@@ -70,3 +70,12 @@ def branches_from_subdirs(repo):
         # `git subtree split -P subdir -b subdir`
         branch_name = dir_to_branch(dirname)
         repo.git.subtree("split", P = dirname, b = branch_name)
+
+def make_bare_repos_from_subdirs(dst_fqpn_root, repo):
+    """
+    Using the subdirs found in `repo`, create bare git repos at `dst_fqpn_root`.
+    """
+    dirnames = branchable_subdirs(repo)
+    for dirname in dirnames:
+        dst_fqpn = os.path.join(dst_fqpn_root, dirname)
+        repo = git.Repo.init_bare(dst_fqpn)
