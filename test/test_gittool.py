@@ -35,7 +35,7 @@ class MethodsReturnValues(unittest.TestCase):
                "level1_dir2",
                "level1_dir3",]
     tl_dirs_contents = [{},
-                        {"level2_dir1":{}},
+                        {"level2_dir1":{"level3_dir1": {}}},
                         {"contains_file":""},]
 
     tl_files = ["level1_file1"]
@@ -62,3 +62,10 @@ class MethodsReturnValues(unittest.TestCase):
         """
         tl_subdirs = gittool.list_tl_subdirs(self.scratch_dir)
         self.assertEqual(tl_subdirs, self.tl_dirs)
+
+    def test_list_empty_subdirs(self):
+        """
+        list_empty_subdirs should return a list containing only empty subdirs.
+        """
+        empty_subdirs = gittool.list_empty_subdirs(self.scratch_dir)
+        self.assertEqual(empty_subdirs, ["level1_dir1", "level1_dir2"])
