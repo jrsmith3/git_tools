@@ -80,6 +80,18 @@ def make_bare_repos_from_subdirs(dst_fqpn_root, repo):
         dst_fqpn = os.path.join(dst_fqpn_root, dirname)
         repo = git.Repo.init_bare(dst_fqpn)
 
+def make_nonbare_repos_from_subdirs(dst_fqpn_root, repo):
+    """
+    Using the subdirs found in `repo`, create git repos at `dst_fqpn_root`.
+    """
+    dirnames = branchable_subdirs(repo)
+
+    for dirname in dirnames:
+        dst_fqpn = os.path.join(dst_fqpn_root, dirname)
+        os.mkdir(dst_fqpn)
+        repo = git.Git(dst_fqpn)
+        repo.init()
+
 def push_branches_to_remotes(dst_fqpn_root, repo):
     """
     This method
@@ -87,7 +99,7 @@ def push_branches_to_remotes(dst_fqpn_root, repo):
     1. Creates bare git repos in `dst_fqpn_root` corresponding to the subdirs of `repo`.
     2. For each branch in `repo`, push branch to correspodning remote.
     """
-    make_bare_repos_from_subdirs(dst_fqpn_root, repo)
+    make_nonbare_repos_from_subdirs(dst_fqpn_root, repo)
 
     dirnames = branchable_subdirs(repo)
 
