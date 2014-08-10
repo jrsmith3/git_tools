@@ -60,4 +60,5 @@ class MethodsReturnValues(unittest.TestCase):
         """
         list_tl_subdirs should return a list with all subdirs.
         """
-        pass
+        tl_subdirs = gittool.list_tl_subdirs(self.scratch_dir)
+        self.assertEqual(tl_subdirs, self.tl_dirs)
