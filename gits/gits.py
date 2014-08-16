@@ -11,11 +11,11 @@ import git
 # General utils
 def list_tl_subdirs(src_fqpn):
     """
-    List of top-level subdirectories in a repository.
+    Fully-qualified path names of top-level subdirectories in a directory.
 
     :param str src_fqpn: Fully qualified path name to source directory.
     """
-    dirnames = [f for f in os.listdir(src_fqpn) if os.path.isdir(os.path.join(src_fqpn,f))]
+    dirnames = [os.path.join(src_fqpn,f) for f in os.listdir(src_fqpn) if os.path.isdir(os.path.join(src_fqpn,f))]
 
     return dirnames
 
