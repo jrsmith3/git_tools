@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 =========================
-Base Library (:mod:`gittool`)
+Base Library (:mod:`gits`)
 =========================
 
-.. currentmodule:: gittool
+.. currentmodule:: gits
 """
 
-from gittool import *
+from gits import *
 import fs_utils

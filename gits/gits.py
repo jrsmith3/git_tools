@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-gittool - Deal with many git repos at once
+gits - Deal with many git repos at once
 """
 
 import os

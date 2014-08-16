@@ -2,7 +2,7 @@
 import os
 import shutil
 import unittest
-import gittool
+import gits
 
 # Variable containing the fully qualified path name of the directory containing these tests.
 test_dir_root = os.path.dirname(os.path.realpath(__file__))
@@ -16,13 +16,13 @@ class MethodsReturnType(unittest.TestCase):
         """
         list_tl_subdirs should return a list.
         """
-        self.assertIsInstance(gittool.list_tl_subdirs(test_dir_root), list)
+        self.assertIsInstance(gits.list_tl_subdirs(test_dir_root), list)
 
     def test_list_empty_subdirs(self):
         """
         list_empty_subdirs should return a list.
         """
-        self.assertIsInstance(gittool.list_empty_subdirs(test_dir_root), list)
+        self.assertIsInstance(gits.list_empty_subdirs(test_dir_root), list)
 
 
 class MethodsReturnValues(unittest.TestCase):
@@ -48,7 +48,7 @@ class MethodsReturnValues(unittest.TestCase):
         Creates nested directory structure for the tests in this class.
         """
         os.mkdir(self.scratch_dir)
-        gittool.fs_utils.dict_to_fs(self.fs_dict, self.scratch_dir)
+        gits.fs_utils.dict_to_fs(self.fs_dict, self.scratch_dir)
 
     def tearDown(self):
         """
@@ -60,12 +60,12 @@ class MethodsReturnValues(unittest.TestCase):
         """
         list_tl_subdirs should return a list with all subdirs.
         """
-        tl_subdirs = gittool.list_tl_subdirs(self.scratch_dir)
+        tl_subdirs = gits.list_tl_subdirs(self.scratch_dir)
         self.assertEqual(tl_subdirs, self.tl_dirs)
 
     def test_list_empty_subdirs(self):
         """
         list_empty_subdirs should return a list containing only empty subdirs.
         """
-        empty_subdirs = gittool.list_empty_subdirs(self.scratch_dir)
+        empty_subdirs = gits.list_empty_subdirs(self.scratch_dir)
         self.assertEqual(empty_subdirs, ["level1_dir1", "level1_dir2"])

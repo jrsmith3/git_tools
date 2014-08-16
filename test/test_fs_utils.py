@@ -2,7 +2,7 @@
 import os
 import shutil
 import unittest
-from gittool import fs_utils
+from gits import fs_utils
 
 test_dir_root = os.path.dirname(os.path.realpath(__file__))
 
