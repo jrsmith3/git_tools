@@ -116,3 +116,20 @@ def push_branches_to_remotes(dst_fqpn_root, repo):
         # Remove remote
         repo.git.remote("rm", "dst")
 
+def repos_list(src_fqpn):
+    """
+    List of git.repo.base.Repo objects from repos in specified dir.
+
+    :param str src_fqpn: Fully-qualified path name from which to create list of git repos.
+    """
+    dirnames = list_tl_subdirs(src_fqpn)
+
+    repos = []
+    for dirname in dirnames:
+        try:
+            repo = git.Repo(dirname)
+            repos.append(repo)
+        except:
+            pass
+
+    return repos
