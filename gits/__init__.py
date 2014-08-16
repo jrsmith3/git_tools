@@ -9,3 +9,4 @@ Base Library (:mod:`gits`)
 
 from gits import *
 import fs_utils
+import gitolite
