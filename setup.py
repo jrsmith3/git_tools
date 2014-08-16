@@ -2,10 +2,10 @@
 from distutils.core import setup
 
 setup(name = 'gits',
-      version = '0.1.0',
+      version = '0.1.1',
       author = 'Joshua Ryan Smith',
       author_email = 'joshua.r.smith@gmail.com',
-      packages = ['gittool'],
+      packages = ['gits'],
       url = 'https://github.com/jrsmith3/gits',
       description = 'tools for managing many git repositories',
       classifiers = ["Programming Language :: Python",
