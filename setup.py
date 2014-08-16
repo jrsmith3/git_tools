@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 setup(name = 'gits',
-      version = '0.1.1',
+      version = '0.1.2',
       author = 'Joshua Ryan Smith',
       author_email = 'joshua.r.smith@gmail.com',
       packages = ['gits'],
